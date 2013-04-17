@@ -8,7 +8,7 @@ public class Simulator {
 	}
 	
 	public static void load_data(){
-		
+		System.out.println("Hi Malatawy!");
 	}
 
 }
