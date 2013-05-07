@@ -82,6 +82,7 @@ public class Simulator {
 	
 	private static void decode_stage() {
 		current_instruction = new Instruction(current_raw_instruction);
+		//dRegisterFile.load(current_instruction);
 	}
 	
 	private static void execute_stage(){
