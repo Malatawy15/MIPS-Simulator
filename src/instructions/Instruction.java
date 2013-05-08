@@ -2,9 +2,8 @@ package instructions;
 
 import helpers.RegisterMapper;
 
+import java.util.Hashtable;
 import java.util.StringTokenizer;
-
-import components.RegisterFile;
 
 public class Instruction {
 
@@ -14,7 +13,7 @@ public class Instruction {
 	int rs;
 	int rt;
 
-	short immediate_value;
+	int immediate_value; 
 	int target_address;
 
 	int rd;
@@ -27,8 +26,8 @@ public class Instruction {
 
 	}
 
-	public Instruction(String raw_instruction) {
-		decode_instruction(raw_instruction);
+	public Instruction(String raw_instruction, Hashtable<String, Integer> label_map) {
+		decode_instruction(raw_instruction, label_map);
 	}
 	
 	public InstructionType get_type(){
@@ -59,32 +58,53 @@ public class Instruction {
 		return immediate_value;
 	}
 
-	public void decode_instruction(String raw_instruction) {
+	public void decode_instruction(String raw_instruction, Hashtable<String, Integer> label_map) {
 		StringTokenizer st = new StringTokenizer(raw_instruction, ",");
 		StringTokenizer st1 = new StringTokenizer(st.nextToken());
 		String ins_type = st1.nextToken().trim(), target = st1.nextToken()
 				.trim();
 		get_class(ins_type);
-		if (format==0){
-			rd = RegisterMapper.map_to_index(st.nextToken().trim());
-			rs = RegisterMapper.map_to_index(st.nextToken().trim());
-			rt = RegisterMapper.map_to_index(st.nextToken().trim());
-		}
-		else if (format==1){
-			
-		}else if (format==2){
-			
-		}
-//		if (st.countTokens() > 0) {
-//			rs = RegisterFile.get_register(st.nextToken().trim());
-//			if (st.countTokens() > 0) {
-//				rt = RegisterFile.get_register(st.nextToken().trim());
-//				if (st.countTokens() > 0) {
-//					rd = RegisterFile.get_register(st.nextToken().trim());
-//				}
-//			}
-//		}
 
+		switch(format){
+		case 0:
+			rd = RegisterMapper.map_to_index(target.trim());
+			rs = RegisterMapper.map_to_index(st.nextToken().trim());
+			if (immediate){
+				immediate_value = Integer.parseInt(st.nextToken().trim());
+			}
+			else{
+				rt = RegisterMapper.map_to_index(st.nextToken().trim());
+			}
+			break;
+		case 1:
+			rt = RegisterMapper.map_to_index(target.trim());
+			if (immediate){
+				immediate_value = Integer.parseInt(st.nextToken().trim());
+			}
+			else{
+				StringTokenizer st2 = new StringTokenizer(st.nextToken(),"(");
+				immediate_value = Integer.parseInt(st2.nextToken().trim());
+				rs = RegisterMapper.map_to_index(st2.nextToken().trim());
+			}
+			break;
+		case 2:
+			rt = RegisterMapper.map_to_index(target.trim());
+			StringTokenizer st2 = new StringTokenizer(st.nextToken(),"(");
+			immediate_value = Integer.parseInt(st2.nextToken().trim());
+			rs = RegisterMapper.map_to_index(st2.nextToken().trim());
+			break;
+		case 3:
+			rs = Integer.parseInt(target.trim());
+			rt = Integer.parseInt(st.nextToken().trim());
+			immediate_value = label_map.get(st.nextToken().trim()); 
+			break;
+		case 4:
+			immediate_value = label_map.get(target.trim());
+			break;
+		case 5:
+			rs = Integer.parseInt(target.trim());
+			break;
+		}
 	}
 
 	private void get_class(String str) {
@@ -134,6 +154,9 @@ public class Instruction {
 				break;
 			case jr:
 				format = 5; // Should change that they all have same value?
+				break;
+			default:
+				format = -1;
 				break;
 
 		}
