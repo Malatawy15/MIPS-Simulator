@@ -30,20 +30,20 @@ public class Simulator {
 	int write_back_value;
 	
 	public static void main (String[]args){
-		
+		Simulator sim = new Simulator();
+		sim.run();
 	}
 	
 	public void run(){
 		
 		welcome_message();
-		
-		load_data(); //Reads all instructions
-		
+				
 		initialize_values(); //Initializes all values
 		
-		
+		load_data(); //Reads all instructions
+
 		//Loop over all instructions executing one by one
-		while(true){
+		while(pc/4 < raw_instructions.size()){
 			
 			//Fetch stage
 			
@@ -53,6 +53,8 @@ public class Simulator {
 			
 			fetch_stage();
 			
+			
+			System.out.println(current_raw_instruction);
 			//Decode stage
 			
 			/*determine type of fetched instruction
@@ -62,17 +64,23 @@ public class Simulator {
 			
 			decode_stage();
 			
+			System.out.println(current_instruction.get_type());
 			//Execute stage
 			
 			execute_stage();
 			
+			
+			System.out.println(alu_result);
 			//Memory stage
 			
 			memory_stage();
 			
+			
 			//Write back stage
 			
 			write_back_stage();
+			
+			System.out.println(register_file.get_register(18));
 			
 		}
 	}
@@ -82,9 +90,15 @@ public class Simulator {
 	}
 
 	private void initialize_values() {
-		pc = 0;
+		pc = 0; // change this, can allow different start values
 		current_raw_instruction = "";
 		current_instruction = new Instruction();
+		
+		raw_instructions = new ArrayList<String>();
+		register_file = new RegisterFile();
+		register_file.test_data();
+		
+		label_map = new Hashtable<String,Integer>();
 		
 		logic_unit = new LogicUnit();
 		logic_unit.set_sim(this);
@@ -103,7 +117,10 @@ public class Simulator {
 	}
 	
 	private void load_data(){
-
+		
+		String instruction = "add s2, s0, s1";
+		raw_instructions.add(instruction);
+		
 	}
 	
 	private void fetch_stage(){
@@ -143,6 +160,8 @@ public class Simulator {
 		switch (format) {
 		case 0:
 			write_back_value = alu_result;
+			write_register();
+			break;
 		case 1:
 			write_back_value = memory_result;
 			write_register();
@@ -166,6 +185,10 @@ public class Simulator {
 	
 	private int calculate_memory_address(){ //To Do! // Is it actually handled in ALU?
 		return 0;
+	}
+
+	public RegisterFile get_register_file() {
+		return register_file;
 	}
 	
 }

@@ -7,7 +7,7 @@ public class RegisterMapper {
 	static Hashtable<String, Integer> registers ;
 	
 	public static void populate(){
-		
+		registers = new Hashtable<String,Integer>();
 		registers.put("zero", 0);
 		registers.put("at", 1);
 		registers.put("v0", 2);

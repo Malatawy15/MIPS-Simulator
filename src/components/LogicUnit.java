@@ -15,6 +15,7 @@ public class LogicUnit {
 
 	public void set_sim(Simulator sim) {
 		this.simulator = sim;
+		this.register_file = sim.get_register_file();
 	}
 
 	public int execute(Instruction inst) {

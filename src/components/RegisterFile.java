@@ -45,5 +45,10 @@ public class RegisterFile {
 		}
 		register_file[index] = value;
 	}
+
+	public void test_data() {
+		register_file[16] = 5;
+		register_file[17] = 15;
+	}
 	
 }

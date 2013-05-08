@@ -17,5 +17,10 @@ public class Main {
 		}
 		}*/
 		
+		
+		String test_instruction = "add s0 s1 s2";
+		
+		
+		
 	}
 }
