@@ -10,17 +10,25 @@ import java.util.*;
 
 public class Simulator {
 	
-	static ArrayList<String> raw_instructions;
-	static RegisterFile register_file;
+	ArrayList<String> raw_instructions;
 	
-	static int pc;
+	RegisterFile register_file;
+	MemoryUnit memory_unit;
 	
-	static String current_raw_instruction;
-	static Instruction current_instruction;
+	LogicUnit logic_unit;
 	
-	static int alu_result;
+	int pc;
+	
+	String current_raw_instruction;
+	Instruction current_instruction;
+	
+	int alu_result;
 	
 	public static void main (String[]args){
+		
+	}
+	
+	public void run(){
 		
 		welcome_message();
 		
@@ -51,44 +59,90 @@ public class Simulator {
 			
 			//Execute stage
 			
+			execute_stage();
+			
 			//Memory stage
 			
+			memory_stage();
+			
 			//Write back stage
+			
+			write_back_stage();
 			
 		}
 	}
 	
-
-
 	private static void welcome_message() {
 		System.out.println("Hello World! --Git Style ;)");
-		
 	}
 
-	private static void initialize_values() {
+	private void initialize_values() {
 		pc = 0;
 		current_raw_instruction = "";
 		current_instruction = new Instruction();
+		
+		logic_unit = new LogicUnit();
+		logic_unit.set_sim(this);
+		
+		memory_unit = new MemoryUnit();
+		populate_memory();
 	}
-
-	private static void load_data(){
+	
+	private void populate_memory(){
+		Random r = new Random();
+		for(int i = 0; i<4096; i+=4){
+			memory_unit.store_word(i, r.nextInt());
+		}
+	}
+	
+	private void load_data(){
 
 	}
 	
-	private static void fetch_stage(){
+	private void fetch_stage(){
 		current_raw_instruction = raw_instructions.get(pc/4);
 		pc+=4;
 	}
 	
-	private static void decode_stage() {
+	private void decode_stage() {
 		current_instruction = new Instruction(current_raw_instruction);
-		//dRegisterFile.load(current_instruction);
 	}
 	
-	private static void execute_stage(){
-		alu_result = LogicUnit.execute(current_instruction);
+	private void execute_stage(){
+		alu_result = logic_unit.execute(current_instruction);
 	}
 	
+	private void memory_stage(){
+		int address = calculate_memory_address();
+		switch(current_instruction.get_type()){
+			case lw:{
+				
+			}
+			case sw:{
+				
+			}
+			default:{
+				
+			}
+		}
+		
+	}
 	
-
+	private void write_back_stage(){
+		
+		int format = current_instruction.get_format();
+		
+		if(format == 1 )
+		
+		try{
+			register_file.write_register(current_instruction.get_rd(), alu_result);
+		} catch (WriteNotAllowedException e){
+			// See how to handle exception
+		}
+	}
+	
+	private int calculate_memory_address(){ //To Do!
+		return 0;
+	}
+	
 }
