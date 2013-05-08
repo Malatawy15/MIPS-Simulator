@@ -44,7 +44,6 @@ public class RegisterMapper {
 	}
 	
 	public static int map_to_index(String register){ // takes register name, returns its index e.g: a0 --> 1
-		
 		return registers.get(register);
 	}
 	

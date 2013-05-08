@@ -27,12 +27,12 @@ public class LogicUnit {
 
 		switch (format) {
 		case 0:
-			if (r_format()) {
+			if (r_format())
 				return result;
-			}
 			break;
 		case 1:
-			// load instructions here
+			if(load_format())
+				return result;
 			break;
 		case 2:
 			// store instructions here
@@ -115,16 +115,16 @@ public class LogicUnit {
 			result = rs >> inst.get_shamt();
 			break;
 		case addi:
-			rs = rt + inst.get_immediate_value();
+			result = rs + inst.get_immediate_value();
 			break;
 		case and:
 			result = rt & rs;
 			break;
 		case ori:
-			rs = rt | inst.get_immediate_value();
+			result = rs | inst.get_immediate_value();
 			break;
 		case andi:
-			rs = rt & inst.get_immediate_value();
+			result = rs & inst.get_immediate_value();
 			break;
 		case nor:
 			result = ~(rs | rt);

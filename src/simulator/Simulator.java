@@ -29,12 +29,17 @@ public class Simulator {
 	int memory_result;
 	int write_back_value;
 	
-	public static void main (String[]args){
+	public static void main (String[]args) throws Exception{
 		Simulator sim = new Simulator();
 		sim.run();
 	}
 	
-	public void run(){
+	public RegisterFile get_register_file() {
+		return register_file;
+	}
+	
+	
+	public void run() throws Exception{
 		
 		welcome_message();
 				
@@ -64,24 +69,25 @@ public class Simulator {
 			
 			decode_stage();
 			
-			System.out.println(current_instruction.get_type());
+			System.out.println(current_instruction);
 			//Execute stage
 			
 			execute_stage();
 			
 			
-			System.out.println(alu_result);
+			System.out.println("ALU result = " + alu_result);
 			//Memory stage
 			
 			memory_stage();
 			
-			
+			System.out.println("Memory result = " + memory_result);
 			//Write back stage
 			
 			write_back_stage();
 			
-			System.out.println(register_file.get_register(18));
+			System.out.println("Register s2 is now equal " + register_file.get_register(18));
 			
+			System.out.println("========");
 		}
 	}
 	
@@ -112,7 +118,7 @@ public class Simulator {
 	private void populate_memory(){
 		Random r = new Random();
 		for(int i = 0; i<4096; i+=4){
-			memory_unit.store_word(i, r.nextInt());
+			memory_unit.store_word(i, i);
 		}
 	}
 	
@@ -121,6 +127,15 @@ public class Simulator {
 		String instruction = "add s2, s0, s1";
 		raw_instructions.add(instruction);
 		
+		instruction = "lw s2, 4(s2)";
+		raw_instructions.add(instruction);
+		
+		instruction = "sub s2, s2, s0";
+		raw_instructions.add(instruction);
+		
+		instruction = "addi s2, s2, 1";
+		raw_instructions.add(instruction);
+
 	}
 	
 	private void fetch_stage(){
@@ -137,24 +152,24 @@ public class Simulator {
 	}
 	
 	private void memory_stage(){
-		int address = calculate_memory_address();
 		InstructionType type = current_instruction.get_type();
 		
 		switch(type){
-			case lw:{
-				memory_result = memory_unit.load_word(alu_result);
-			}
-			case sw:{
-				
-			}
-			default:{
-				
-			}
+		case lw:{
+			memory_result = memory_unit.load_word(alu_result);
+			break;
+		}
+		case sw:{
+			
+		}
+		default:{
+			
+		}
 		}
 		
 	}
 	
-	private void write_back_stage() {
+	private void write_back_stage() throws Exception{
 
 		int format = current_instruction.get_format();
 		switch (format) {
@@ -174,9 +189,9 @@ public class Simulator {
 		}
 	}
 	
-	private void write_register(){
+	private void write_register() throws Exception{
 		try {
-			register_file.write_register(current_instruction.get_rd(),
+			register_file.write_register(current_instruction.get_write_register(),
 					write_back_value);
 		} catch (WriteNotAllowedException e) {
 			// See how to handle exception
@@ -187,8 +202,4 @@ public class Simulator {
 		return 0;
 	}
 
-	public RegisterFile get_register_file() {
-		return register_file;
-	}
-	
 }

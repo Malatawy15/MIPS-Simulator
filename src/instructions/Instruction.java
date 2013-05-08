@@ -82,16 +82,18 @@ public class Instruction {
 				immediate_value = Integer.parseInt(st.nextToken().trim());
 			}
 			else{
-				StringTokenizer st2 = new StringTokenizer(st.nextToken(),"(");
+				StringTokenizer st2 = new StringTokenizer(st.nextToken().trim(),"(");
 				immediate_value = Integer.parseInt(st2.nextToken().trim());
-				rs = RegisterMapper.map_to_index(st2.nextToken().trim());
+				String str = st2.nextToken().trim();
+				rs = RegisterMapper.map_to_index(str.substring(0,str.length()-1));
 			}
 			break;
 		case 2:
 			rt = RegisterMapper.map_to_index(target.trim());
-			StringTokenizer st2 = new StringTokenizer(st.nextToken(),"(");
+			StringTokenizer st2 = new StringTokenizer(st.nextToken().trim(),"(");
 			immediate_value = Integer.parseInt(st2.nextToken().trim());
-			rs = RegisterMapper.map_to_index(st2.nextToken().trim());
+			String str = st2.nextToken().trim();
+			rs = RegisterMapper.map_to_index(str.substring(0,str.length()-1));
 			break;
 		case 3:
 			rs = Integer.parseInt(target.trim());
@@ -161,6 +163,30 @@ public class Instruction {
 
 		}
 			
+	}
+	
+	public String toString(){
+		String base = "Instruction of type \"" + type + "\" and format = " + format + "\n";
+		String specific = "";
+		switch(format){
+		case 0:
+			specific += "   rs index = " + rs + ", rt index= " + rt + ", rd index= " + rd;
+			specific += immediate? " and immediate value = " + immediate_value : "";
+			break;
+		}
+		String str = base + specific;
+		return str;
+	}
+
+	public int get_write_register() throws Exception {
+		switch(format){
+		case 0:
+			return rd;
+		case 1:
+			return rt;
+		default:
+			throw new ProgramRunTimeException();
+		}
 	}
 
 }
