@@ -56,20 +56,21 @@ public class Instruction {
 		String ins_type = st1.nextToken().trim(), target = st1.nextToken()
 				.trim();
 		get_class(ins_type);
-		if (format==0){
+		switch(format){
+		case 0:
 			if (type == InstructionType.jr){
-				
+			
 			}
 			else {
-				rd = RegisterMapper.map_to_index(st.nextToken().trim());
+				rd = RegisterMapper.map_to_index(target.trim());
 				rs = RegisterMapper.map_to_index(st.nextToken().trim());
 				rt = RegisterMapper.map_to_index(st.nextToken().trim());
 			}
-		}
-		else if (format==1){
-			
-		}else if (format==2){
-			
+			break;
+		case 1:
+			break;
+		case 2:
+			break;
 		}
 //		if (st.countTokens() > 0) {
 //			rs = RegisterFile.get_register(st.nextToken().trim());

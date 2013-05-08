@@ -131,9 +131,7 @@ public class Simulator {
 	private void write_back_stage(){
 		
 		int format = current_instruction.get_format();
-		
-		if(format == 1 )
-		
+				
 		try{
 			register_file.write_register(current_instruction.get_rd(), alu_result);
 		} catch (WriteNotAllowedException e){
