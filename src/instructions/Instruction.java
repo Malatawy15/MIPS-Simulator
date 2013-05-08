@@ -57,14 +57,9 @@ public class Instruction {
 				.trim();
 		get_class(ins_type);
 		if (format==0){
-			if (type == InstructionType.jr){
-				
-			}
-			else {
-				rd = RegisterMapper.map_to_index(st.nextToken().trim());
-				rs = RegisterMapper.map_to_index(st.nextToken().trim());
-				rt = RegisterMapper.map_to_index(st.nextToken().trim());
-			}
+			rd = RegisterMapper.map_to_index(st.nextToken().trim());
+			rs = RegisterMapper.map_to_index(st.nextToken().trim());
+			rt = RegisterMapper.map_to_index(st.nextToken().trim());
 		}
 		else if (format==1){
 			
@@ -96,6 +91,7 @@ public class Instruction {
 			case srl:
 			case or:
 			case nor:
+			case slt:
 				format = 0;
 				break;
 			case addi:
@@ -125,11 +121,11 @@ public class Instruction {
 				break;
 			case j:
 			case jal:
-			case jr:
-				format = 4; // Should change that they all have same value?
+				format = 4;
 				break;
-			
-			
+			case jr:
+				format = 5; // Should change that they all have same value?
+				break;
 
 		}
 			
