@@ -2,7 +2,7 @@ package components;
 
 import exceptions.*;
 
-import heplers.RegisterMapper;
+import helpers.RegisterMapper;
 
 import java.util.ArrayList;
 

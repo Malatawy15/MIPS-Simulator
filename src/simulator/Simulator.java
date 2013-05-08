@@ -19,6 +19,8 @@ public class Simulator {
 	
 	int pc;
 	
+	Hashtable<String, Integer> label_map;
+	
 	String current_raw_instruction;
 	Instruction current_instruction;
 	
@@ -105,7 +107,7 @@ public class Simulator {
 	}
 	
 	private void decode_stage() {
-		current_instruction = new Instruction(current_raw_instruction);
+		current_instruction = new Instruction(current_raw_instruction, label_map);
 	}
 	
 	private void execute_stage(){
