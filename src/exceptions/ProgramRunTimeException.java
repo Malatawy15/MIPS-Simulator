@@ -1,4 +1,4 @@
-package instructions;
+package exceptions;
 
 public class ProgramRunTimeException extends Exception {
 	

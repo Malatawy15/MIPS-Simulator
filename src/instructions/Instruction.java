@@ -5,6 +5,8 @@ import helpers.RegisterMapper;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 
+import exceptions.ProgramRunTimeException;
+
 public class Instruction {
 
 	InstructionType type;
