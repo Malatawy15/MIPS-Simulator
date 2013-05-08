@@ -1,6 +1,6 @@
 package instructions;
 
-import helpers.RegisterMapper;
+import heplers.RegisterMapper;
 
 import java.util.StringTokenizer;
 
@@ -8,18 +8,20 @@ import components.RegisterFile;
 
 public class Instruction {
 
-	InstructionType type;
+	public InstructionType type;
 	int format;
 
-	int rs;
-	int rt;
+	public int rs;
+	public int rt;
 
-	int address;
+	public short immediate_value;
 
+	public int labelJump = 0;
 	int rd;
-	int shamt;
+	public int shamt;
 	int funct;
-	
+	public int value;
+
 	boolean immediate;
 
 	public Instruction() {
