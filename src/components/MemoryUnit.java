@@ -1,5 +1,6 @@
 package components;
 
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class MemoryUnit {
@@ -10,14 +11,21 @@ public class MemoryUnit {
 		memory = new byte[1<<20];
 	}
 	
-	public static byte[] break_integer(int value){
-		//To implement
-		return new byte[4];
+	public MemoryUnit(int size){
+		memory = new byte[size];
 	}
 	
+	public static byte[] break_integer(int value){
+	    return new byte[] {
+	            (byte)(value >>> 24),
+	            (byte)(value >>> 16),
+	            (byte)(value >>> 8),
+	            (byte)value};
+	}
+	
+	
 	public static int connect_integer(byte[] array){
-		//To implement
-		return 0;
+		return ByteBuffer.wrap(array).getInt();
 	}
 	
 	public void store_word(int index, int value){

@@ -14,7 +14,8 @@ public class Instruction {
 	int rs;
 	int rt;
 
-	int address;
+	short immediate_value;
+	int target_address;
 
 	int rd;
 	int shamt;
@@ -46,8 +47,16 @@ public class Instruction {
 		return rt;
 	}
 	
+	public int get_shamt(){
+		return shamt;
+	}
+	
 	public int get_format(){
 		return format;
+	}
+	
+	public int get_immediate_value(){
+		return immediate_value;
 	}
 
 	public void decode_instruction(String raw_instruction) {

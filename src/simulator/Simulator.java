@@ -3,6 +3,7 @@ package simulator;
 import components.*;
 import instructions.*;
 import exceptions.*;
+import helpers.*;
 
 import java.io.*;
 import java.util.*;
@@ -23,6 +24,8 @@ public class Simulator {
 	Instruction current_instruction;
 	
 	int alu_result;
+	int memory_result;
+	int write_back_value;
 	
 	public static void main (String[]args){
 		
@@ -86,6 +89,8 @@ public class Simulator {
 		
 		memory_unit = new MemoryUnit();
 		populate_memory();
+		
+		RegisterMapper.populate();
 	}
 	
 	private void populate_memory(){
@@ -114,9 +119,11 @@ public class Simulator {
 	
 	private void memory_stage(){
 		int address = calculate_memory_address();
-		switch(current_instruction.get_type()){
+		InstructionType type = current_instruction.get_type();
+		
+		switch(type){
 			case lw:{
-				
+				memory_result = memory_unit.load_word(alu_result);
 			}
 			case sw:{
 				
@@ -128,20 +135,34 @@ public class Simulator {
 		
 	}
 	
-	private void write_back_stage(){
-		
+	private void write_back_stage() {
+
 		int format = current_instruction.get_format();
-		
-		if(format == 1 )
-		
-		try{
-			register_file.write_register(current_instruction.get_rd(), alu_result);
-		} catch (WriteNotAllowedException e){
+		switch (format) {
+		case 0:
+			write_back_value = alu_result;
+		case 1:
+			write_back_value = memory_result;
+			write_register();
+			break;
+		case 4:
+			if (current_instruction.get_type() == InstructionType.jal) {
+				write_register();
+			}
+			break;
+		}
+	}
+	
+	private void write_register(){
+		try {
+			register_file.write_register(current_instruction.get_rd(),
+					write_back_value);
+		} catch (WriteNotAllowedException e) {
 			// See how to handle exception
 		}
 	}
 	
-	private int calculate_memory_address(){ //To Do!
+	private int calculate_memory_address(){ //To Do! // Is it actually handled in ALU?
 		return 0;
 	}
 	
