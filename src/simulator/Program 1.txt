@@ -1,0 +1,4 @@
+add s2, s0, s1
+lw s2, 4(s2)
+sub s2, s2, s0
+addi s2, s2, 1

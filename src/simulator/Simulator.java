@@ -6,6 +6,7 @@ import exceptions.*;
 import helpers.*;
 
 import java.io.*;
+import java.net.URL;
 import java.util.*;
 
 
@@ -19,6 +20,7 @@ public class Simulator {
 	LogicUnit logic_unit;
 	
 	int pc;
+	int counter;
 	
 	Hashtable<String, Integer> label_map;
 	
@@ -48,7 +50,7 @@ public class Simulator {
 		load_data(); //Reads all instructions
 
 		//Loop over all instructions executing one by one
-		while(pc/4 < raw_instructions.size()){
+		while( pc>>2 < raw_instructions.size()){
 			
 			//Fetch stage
 			
@@ -122,9 +124,9 @@ public class Simulator {
 		}
 	}
 	
-	private void load_data(){
+	private void load_data() throws IOException{
 		
-		String instruction = "add s2, s0, s1";
+/*		String instruction = "add s2, s0, s1";
 		raw_instructions.add(instruction);
 		
 		instruction = "lw s2, 4(s2)";
@@ -134,13 +136,20 @@ public class Simulator {
 		raw_instructions.add(instruction);
 		
 		instruction = "addi s2, s2, 1";
-		raw_instructions.add(instruction);
+		raw_instructions.add(instruction);*/
+		InputStream input = getClass().getResourceAsStream("Program 1.txt");
+		BufferedReader br = new BufferedReader(new InputStreamReader(input));
+		String line = "";
+		while( ((line=br.readLine())) != null){
+			raw_instructions.add(line);
+		}
 
 	}
 	
 	private void fetch_stage(){
-		current_raw_instruction = raw_instructions.get(pc/4);
+		current_raw_instruction = raw_instructions.get(counter);
 		pc+=4;
+		counter = pc >> 2;
 	}
 	
 	private void decode_stage() {
