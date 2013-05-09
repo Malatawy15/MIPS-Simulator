@@ -189,6 +189,9 @@ public class Simulator {
 		case lh:
 			memory_result = memory_unit.load_half_word(alu_result);
 			break;
+		case lhu:
+			memory_result = memory_unit.load_half_word_unsigned(alu_result);
+			break;
 		case lb:
 			memory_result = memory_unit.load_byte(alu_result);
 			break;

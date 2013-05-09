@@ -130,6 +130,7 @@ public class Instruction {
 			case addi:
 			case andi:
 			case ori:
+			case lui:
 				format = 0;
 				immediate = true;
 				break;
@@ -139,10 +140,6 @@ public class Instruction {
 			case lb:
 			case lbu:
 				format = 1;
-				break;
-			case lui:
-				format = 1;
-				immediate = true;
 				break;
 			case sw:
 			case sh:

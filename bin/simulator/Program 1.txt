@@ -3,6 +3,6 @@ lw s2, 4(s2)
 sub s2, s2, s0
 addi s2, s2, 1
 sw s2, 4(s2)
-addi s3, zero, 255
-sb s3, 4(s2)
-lbu s2, 4(s2)
+addi s3, zero, 32767
+sh s3, 4(s2)
+lh s2, 4(s2)

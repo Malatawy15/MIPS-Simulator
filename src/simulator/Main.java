@@ -19,7 +19,7 @@ public class Main {
 		
 		
 		String test_instruction = "add s0 s1 s2";
-		
+		System.out.println(Integer.MAX_VALUE);
 		
 		
 	}

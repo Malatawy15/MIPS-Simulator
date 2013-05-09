@@ -15,35 +15,16 @@ public class MemoryUnit {
 	public MemoryUnit(int size) {
 		memory = new byte[size];
 	}
-
-	public static byte[] break_word(int value) {
-		return new byte[] { (byte) (value >>> 24), (byte) (value >>> 16),
-				(byte) (value >>> 8), (byte) value };
+	
+	public int size(){
+		return memory.length;
 	}
 	
-	public static byte[] break_half_word (int value){
-		return new byte[] { (byte) (value >>> 8), (byte) value};
-	}
-
-	public static int connect_word(byte[] array) {
-		return ByteBuffer.wrap(array).getInt();
-	}
-
-	public static int connect_half_word(byte[] array) {
-		return ByteBuffer.wrap(array).getShort();
-	}
-	
-	public static int connect_byte(byte[] array) {
-		return ByteBuffer.wrap(array).get();
-	}
-
 	public byte[] read(int start, int end) {
 		if (start < 0 || end > memory.length) {
 			throw new MemoryOutOfBoundsException();
 		}
-		
 		return Arrays.copyOfRange(memory, start, end);
-
 	}
 	
 	public void write(int index, byte[]array){
@@ -56,24 +37,34 @@ public class MemoryUnit {
 		}
 		
 	}
-	
-	public int size(){
-		return memory.length;
-	}
 
+	public static byte[] break_word(int value) {
+		return new byte[] { (byte) (value >>> 24), (byte) (value >>> 16),
+				(byte) (value >>> 8), (byte) value };
+	}
+	
+	public static byte[] break_half_word (int value){
+		return new byte[] { (byte) (value >>> 8), (byte) value};
+	}
+	
 	public int load_word(int index) {
 		byte[] array = read(index, index + 4);
-		return connect_word(array);
+		return ByteBuffer.wrap(array).getInt();
 	}
 
 	public int load_half_word(int index) {
 		byte[] array = read(index, index + 2);
-		return connect_half_word(array);
+		return (short)((array[0]<<8) | (array[1]));
+	}
+	
+	public int load_half_word_unsigned(int index) {
+		byte[] array = read(index, index+2);
+		return (char) ((array[0]<<8) | (array[1]));
 	}
 
 	public int load_byte(int index) {
 		byte[] array = read(index, index+1);
-		return connect_byte(array);
+		return (byte) array[0];
 	}
 	
 	public int load_byte_unsigned(int index){
