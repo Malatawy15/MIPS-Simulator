@@ -380,6 +380,23 @@ public class DataPath extends JPanel {
 	Wire[] signExtendIn;
 	Wire adder1In;
 	JLabel four;
+	Mux mux4;
+	Mux mux5;
+	ShiftLeft shiftLeft2;
+	Wire muxToMux;
+	Wire[] instructionMemToShifter;
+	Wire[] shifter2ToMux;
+	Wire adder1ToShifter1;
+	Control control;
+	Wire[] regDst;
+	Wire[] jump;
+	Wire[] branch;
+	Wire[] memRead;
+	Wire[] memToReg;
+	Wire[] aluOp;
+	Wire[] memWrite;
+	Wire[] aluSrc;
+	Wire[] regWrite;
 
 	/**
 	 * Create the panel.
@@ -390,7 +407,7 @@ public class DataPath extends JPanel {
 		instructionMemory.setBounds(180, 220, 140, 180);
 		add(instructionMemory);
 		registers = new Registers();
-		registers.setBounds(400, 195, 190, 230);
+		registers.setBounds(400, 215, 190, 230);
 		add(registers);
 		dataMemory = new DataMemory();
 		dataMemory.setBounds(900, 265, 160, 210);
@@ -437,16 +454,16 @@ public class DataPath extends JPanel {
 		adder2ToPc[0].setBounds(70, 250, 35, 10);
 		add(adder2ToPc[0]);
 		adder2ToPc[1] = new VerticalWire();
-		adder2ToPc[1].setBounds(65, 30, 10, 225);
+		adder2ToPc[1].setBounds(65, 10, 10, 245);
 		add(adder2ToPc[1]);
 		adder2ToPc[2] = new HorizontalWire();
-		adder2ToPc[2].setBounds(70, 25, 950, 10);
+		adder2ToPc[2].setBounds(70, 5, 990, 10);
 		add(adder2ToPc[2]);
 		adder2ToPc[3] = new VerticalWire();
-		adder2ToPc[3].setBounds(1014, 30, 10, 80);
+		adder2ToPc[3].setBounds(1055, 10, 10, 100);
 		add(adder2ToPc[3]);
 		adder2ToPc[4] = new HorizontalWire();
-		adder2ToPc[4].setBounds(950, 105, 70, 10);
+		adder2ToPc[4].setBounds(1025, 105, 35, 10);
 		add(adder2ToPc[4]);
 		adder2ToMux = new HorizontalWire();
 		adder2ToMux.setBounds(865, 130, 55, 10);
@@ -499,9 +516,9 @@ public class DataPath extends JPanel {
 		aluToMux[3] = new HorizontalWire();
 		aluToMux[3].setBounds(1080, 390, 30, 10);
 		add(aluToMux[3]);
-		muxToRegisters = new Wire[5];
+		muxToRegisters = new Wire[4];
 		muxToRegisters[0] = new VerticalWire();
-		muxToRegisters[0].setBounds(375, 380, 10, 255);
+		muxToRegisters[0].setBounds(425, 420, 10, 215);
 		add(muxToRegisters[0]);
 		muxToRegisters[1] = new HorizontalWire();
 		muxToRegisters[1].setBounds(1140, 355, 40, 10);
@@ -510,11 +527,8 @@ public class DataPath extends JPanel {
 		muxToRegisters[2].setBounds(1175, 360, 10, 275);
 		add(muxToRegisters[2]);
 		muxToRegisters[3] = new HorizontalWire();
-		muxToRegisters[3].setBounds(380, 375, 25, 10);
+		muxToRegisters[3].setBounds(430, 630, 750, 10);
 		add(muxToRegisters[3]);
-		muxToRegisters[4] = new HorizontalWire();
-		muxToRegisters[4].setBounds(380, 630, 800, 10);
-		add(muxToRegisters[4]);
 		siginExtendToMux = new HorizontalWire();
 		siginExtendToMux.setBounds(620, 390, 50, 10);
 		add(siginExtendToMux);
@@ -531,7 +545,7 @@ public class DataPath extends JPanel {
 		instructionMemoryOut = new HorizontalWire();
 		instructionMemoryOut.setBounds(315, 300, 30, 10);
 		add(instructionMemoryOut);
-		registerIn = new Wire[4];
+		registerIn = new Wire[7];
 		registerIn[0] = new VerticalWire();
 		registerIn[0].setBounds(340, 250, 10, 110);
 		add(registerIn[0]);
@@ -542,8 +556,17 @@ public class DataPath extends JPanel {
 		registerIn[2].setBounds(345, 300, 60, 10);
 		add(registerIn[2]);
 		registerIn[3] = new HorizontalWire();
-		registerIn[3].setBounds(345, 355, 60, 10);
+		registerIn[3].setBounds(395, 355, 10, 10);
 		add(registerIn[3]);
+		registerIn[4] = new HorizontalWire();
+		registerIn[4].setBounds(345, 380, 20, 10);
+		add(registerIn[4]);
+		registerIn[5] = new HorizontalWire();
+		registerIn[5].setBounds(355, 330, 10, 10);
+		add(registerIn[5]);
+		registerIn[6] = new VerticalWire();
+		registerIn[6].setBounds(350, 305, 10, 30);
+		add(registerIn[6]);
 		signExtendIn = new Wire[2];
 		signExtendIn[0] = new VerticalWire();
 		signExtendIn[0].setBounds(340, 360, 10, 175);
@@ -558,6 +581,93 @@ public class DataPath extends JPanel {
 		four = new JLabel("4");
 		four.setBounds(135, 132, 40, 15);
 		add(four);
+		
+		mux4 = new Mux();
+		mux4.setBounds(990, 55, 40, 100);
+		add(mux4);
+		mux5 = new Mux();
+		mux5.setBounds(360, 310, 40, 100);
+		add(mux5);
+		shiftLeft2 = new ShiftLeft();
+	    shiftLeft2.setBounds(350, 20, 80, 80);
+		add(shiftLeft2);
+		
+		muxToMux = new HorizontalWire();
+		muxToMux.setBounds(950, 120, 45, 10);
+		add(muxToMux);
+		
+		instructionMemToShifter = new Wire[2];
+		instructionMemToShifter[0] = new VerticalWire();
+		instructionMemToShifter[0].setBounds(320, 65, 10, 240);
+		add(instructionMemToShifter[0]);
+		instructionMemToShifter[1] = new HorizontalWire();
+		instructionMemToShifter[1].setBounds(325, 60, 35, 10);
+		add(instructionMemToShifter[1]);
+		
+		shifter2ToMux = new Wire[3];
+		shifter2ToMux[0] = new HorizontalWire();
+		shifter2ToMux[0].setBounds(412, 30, 555, 10);
+		add(shifter2ToMux[0]);
+		shifter2ToMux[1] = new VerticalWire();
+		shifter2ToMux[1].setBounds(962, 34, 10, 40);
+		add(shifter2ToMux[1]);
+		shifter2ToMux[2] = new HorizontalWire();
+		shifter2ToMux[2].setBounds(966, 70, 30, 10);
+		add(shifter2ToMux[2]);
+		
+		adder1ToShifter1 = new VerticalWire();
+		adder1ToShifter1.setBounds(500, 35, 10, 70);
+		add(adder1ToShifter1);
+		
+		control = new Control();
+		control.setBounds(400, 75, 100, 200);
+		add(control);
+		
+		regDst = new Wire[1];
+		regDst[0] = new HorizontalWire();
+		regDst[0].setText("RegDst");
+		regDst[0].setBounds(480, 120, 50, 10);
+		add(regDst[0]);
+		jump = new Wire[1];
+		jump[0] = new HorizontalWire();
+		jump[0].setText("jump");
+		jump[0].setBounds(485, 132, 50, 10);
+		add(jump[0]);
+		branch = new Wire[1];
+		branch[0] = new HorizontalWire();
+		branch[0].setText("branch");
+		branch[0].setBounds(490, 144, 50, 10);
+		add(branch[0]);
+		memRead = new Wire[1];
+		memRead[0] = new HorizontalWire();
+		memRead[0].setText("MemRead ");
+		memRead[0].setBounds(490, 156, 50, 10);
+		add(memRead[0]);
+		memToReg = new Wire[1];
+		memToReg[0] = new HorizontalWire();
+		memToReg[0].setText("MemtoReg");
+		memToReg[0].setBounds(490, 168, 50, 10);
+		add(memToReg[0]);
+		aluOp = new Wire[1];
+		aluOp[0] = new HorizontalWire();
+		aluOp[0].setText("ALUOp");
+		aluOp[0].setBounds(490, 180, 50, 10);
+		add(aluOp[0]);
+		memWrite = new Wire[1];
+		memWrite[0] = new HorizontalWire();
+		memWrite[0].setText("MemWrite");
+		memWrite[0].setBounds(485, 192, 50, 10);
+		add(memWrite[0]);
+		aluSrc = new Wire[1];
+		aluSrc[0] = new HorizontalWire();
+		aluSrc[0].setText("ALUSrc");
+		aluSrc[0].setBounds(480, 204, 70, 10);
+		add(aluSrc[0]);
+		regWrite = new Wire[1];
+		regWrite[0] = new HorizontalWire();
+		regWrite[0].setText("RegWrite");
+		regWrite[0].setBounds(470, 216, 70, 10);
+		add(regWrite[0]);
 		
 	}
 	

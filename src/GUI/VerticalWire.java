@@ -22,7 +22,12 @@ public class VerticalWire extends Wire {
 		g2.setStroke(new BasicStroke(2));
 		super.paintComponent(g2);
 		Dimension d = this.getSize();
-		g.drawLine(d.width/2,0,d.width/2,d.height);
+		if(text == "EMPTY")
+			g2.drawLine(d.width/2,0,d.width/2,d.height);
+		else{
+			g2.drawLine(d.width,0,d.width,d.height);
+			g2.drawString(text, (getWidth()-40)/2, getHeight()-5);
+		}
 		
 		
 		

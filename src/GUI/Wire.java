@@ -8,16 +8,22 @@ import javax.swing.JPanel;
 public class Wire extends JPanel {
 	
 	Color color;
+	String text;
 
 	/**
 	 * Create the panel.
 	 */
 	public Wire() {
 		setOpaque(false);
+		text = "EMPTY";
 	}
 	
 	public void setColor(Color c){
 		color = c;
+	}
+	
+	public void setText(String txt){
+		text = txt;
 	}
 	
 

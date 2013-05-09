@@ -1,5 +1,6 @@
 package simulator;
 
+import GUI.MainView;
 import components.*;
 import instructions.*;
 import exceptions.*;
@@ -31,6 +32,8 @@ public class Simulator {
 	int write_back_value;
 
 	boolean signal_alu_zero;
+	
+	MainView gui;
 
 	public static void main(String[] args) throws Exception {
 		Simulator sim = new Simulator();
@@ -102,6 +105,9 @@ public class Simulator {
 	}
 
 	private void initialize_values() {
+		
+		gui = new MainView();
+		
 		pc = 0; // change this, can allow different start values
 		current_raw_instruction = "";
 		current_instruction = new Instruction();
@@ -109,6 +115,7 @@ public class Simulator {
 		raw_instructions = new ArrayList<String>();
 		register_file = new RegisterFile();
 		register_file.test_data();
+		gui.fillRegisters(register_file.get_register_file());
 
 		label_map = new Hashtable<String, Integer>();
 
@@ -127,6 +134,7 @@ public class Simulator {
 		for (int i = 0; i < memory_unit.size(); i += 4) {
 			memory_unit.store_word(i, i);
 		}
+		gui.fillMemory(memory_unit.get_memory());
 	}
 
 	private void load_data() throws IOException {
@@ -148,7 +156,7 @@ public class Simulator {
 			raw_instructions.add(line);
 		}
 		map_labels();
-
+		gui.addInstructions(raw_instructions);
 	}
 	
 	private void map_labels(){
@@ -261,6 +269,7 @@ public class Simulator {
 			}
 			break;
 		}
+		gui.fillRegisters(register_file.get_register_file());
 	}
 
 	private void write_register() throws Exception {

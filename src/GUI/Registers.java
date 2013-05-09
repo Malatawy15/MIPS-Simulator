@@ -30,8 +30,8 @@ public class Registers extends JPanel {
 		g2.setColor(color);
 		g2.setStroke(new BasicStroke(2));
 		super.paintComponent(g2);
-		g2.drawRect((getWidth()-180)/2, (getHeight()-220)/2, 180, 220);
-		g2.drawString("Registers", getWidth()/2 + 10, getHeight()/2 + 90);
+		g2.drawRect((getWidth()-180)/2, (getHeight()-180)/2, 180, 180);
+		g2.drawString("Registers", getWidth()/2 + 10, getHeight()/2 + 80);
 		
 		
 		

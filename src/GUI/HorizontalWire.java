@@ -22,8 +22,12 @@ public class HorizontalWire extends Wire {
 		g2.setStroke(new BasicStroke(2));
 		super.paintComponent(g2);
 		Dimension d = this.getSize();
-		g.drawLine(0,d.height/2,d.width,d.height/2);
-		
+		if(text == "EMPTY")
+			g2.drawLine(0,d.height/2,d.width,d.height/2);
+		else{
+			g2.drawLine(0,d.height,d.width,d.height);
+			g2.drawString(text, (getWidth()-40)/2, getHeight()-1);
+		}
 		
 		
 	}

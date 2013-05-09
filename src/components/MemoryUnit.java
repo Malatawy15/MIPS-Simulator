@@ -8,6 +8,20 @@ public class MemoryUnit {
 
 	byte[] memory;
 
+	/**
+	 * @return the memory
+	 */
+	public byte[] get_memory() {
+		return memory;
+	}
+
+	/**
+	 * @param memory the memory to set
+	 */
+	public void set_memory(byte[] memory) {
+		this.memory = memory;
+	}
+
 	public MemoryUnit() {
 		memory = new byte[1 << 10];
 	}

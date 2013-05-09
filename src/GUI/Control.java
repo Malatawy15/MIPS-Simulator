@@ -8,15 +8,14 @@ import java.awt.Graphics2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-
-public class SignExtend extends JPanel {
-
-	Color color;
+public class Control extends JPanel {
 	
+	Color color;
+
 	/**
 	 * Create the panel.
 	 */
-	public SignExtend() {
+	public Control() {
 		setOpaque(false);
 	}
 	
@@ -30,15 +29,14 @@ public class SignExtend extends JPanel {
 		g2.setColor(color);
 		g2.setStroke(new BasicStroke(2));
 		super.paintComponent(g2);
-		g2.drawOval((getWidth()-80)/2, (getHeight()-110)/2, 80, 110);
-		g2.drawString("Sign", (getWidth()-30)/2, getHeight()/2 - 10);
-		g2.drawString("extend", (getWidth()-40)/2, getHeight()/2 + 10);
+		g2.drawOval((getWidth()-80)/2, (getHeight()-120)/2, 80, 120);
+		g2.drawString("Control", (getWidth()-40)/2, getHeight()/2);
 		
 		
 	}
 
 	public static void main(String [] args){
-		SignExtend p = new SignExtend();
+		Control p = new Control();
 		p.setColor(Color.yellow);
 		JFrame app = new JFrame ();
 		app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

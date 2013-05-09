@@ -25,11 +25,64 @@ public class MainView extends JFrame {
 	private JPanel panel2;
 	private JScrollPane registers;
 	private JPanel panel3;
-	private ArrayList<String> instructions;
 	private ArrayList<JLabel> instructionLabels;
-	private int[] registerValues;
-	private byte[] memory;
 	private JPanel panel_1;
+	/**
+	 * @return the panel2
+	 */
+	public JPanel getPanel2() {
+		return panel2;
+	}
+
+	/**
+	 * @param panel2 the panel2 to set
+	 */
+	public void setPanel2(JPanel panel2) {
+		this.panel2 = panel2;
+	}
+
+	/**
+	 * @return the panel3
+	 */
+	public JPanel getPanel3() {
+		return panel3;
+	}
+
+	/**
+	 * @param panel3 the panel3 to set
+	 */
+	public void setPanel3(JPanel panel3) {
+		this.panel3 = panel3;
+	}
+
+	/**
+	 * @return the panel_1
+	 */
+	public JPanel getPanel_1() {
+		return panel_1;
+	}
+
+	/**
+	 * @param panel_1 the panel_1 to set
+	 */
+	public void setPanel_1(JPanel panel_1) {
+		this.panel_1 = panel_1;
+	}
+
+	/**
+	 * @return the panel_2
+	 */
+	public JPanel getPanel_2() {
+		return panel_2;
+	}
+
+	/**
+	 * @param panel_2 the panel_2 to set
+	 */
+	public void setPanel_2(JPanel panel_2) {
+		this.panel_2 = panel_2;
+	}
+
 	private JPanel panel_2;
 	private JFrame datapathFrame;
 	private DataPath datapath;
@@ -42,12 +95,7 @@ public class MainView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ArrayList<String> a = new ArrayList<String>();
-					for(int i = 0; i < 50; i++)
-						a.add("A");
-					int[] a2 = new int[32];
-					byte[] a3 = new byte[30];
-					MainView frame = new MainView(a,a2, a3);
+					MainView frame = new MainView();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,11 +108,14 @@ public class MainView extends JFrame {
 	 * Create the frame.
 	 */
 	public MainView() {
+		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(1040, 10, 550, 400);
 		contentPane = new JPanel();
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
+		
+		instructionLabels = new ArrayList<JLabel>();
 		
 		datapath = new DataPath();
 		
@@ -115,16 +166,6 @@ public class MainView extends JFrame {
 		next.setBounds(10, 10, 120, 20);
 		contentPane.add(next);
 		
-	}
-	
-	public MainView(ArrayList<String> instructions,int[] registerValues,byte[] memory){
-		this();
-		this.instructions = instructions;
-		this.registerValues = registerValues;
-		this.memory = memory;
-		instructionLabels = new ArrayList<JLabel>();
-		panel.setLayout(new GridLayout(instructions.size(), 1, 0, 0));
-		panel2.setLayout(new GridLayout(memory.length, 1, 0, 0));
 		panel3.setLayout(new GridLayout(1, 2, 0, 0));
 		panel_1.setLayout(new GridLayout(32, 1, 0, 0));
 		panel_1.add(new JLabel("$zero"));
@@ -159,27 +200,42 @@ public class MainView extends JFrame {
 		panel_1.add(new JLabel("$sp"));
 		panel_1.add(new JLabel("$fp"));
 		panel_1.add(new JLabel("$ra"));
-		panel_2.setLayout(new GridLayout(32, 1, 0, 0));
-		for(int i=0 ; i<instructions.size();i++){
-			JLabel l = new JLabel(instructions.get(i));
-			panel.add(l);
-			instructionLabels.add(l);
+	}
+	
+	public void selectInstruction(int pc){
+		for (JLabel l : instructionLabels){
+			l.setForeground(Color.black);
 		}
+		instructionLabels.get(pc).setForeground(Color.red);
+	}
+	public void fillMemory(byte[]memory){
+		panel2.setLayout(new GridLayout(memory.length, 1, 0, 0));
 		for(int i=0 ; i<memory.length;i++){
 			JLabel l = new JLabel(memory[i] + "");
 			l.setBorder(new LineBorder(new Color(0, 0, 0)));
 			panel2.add(l);
-			
 		}
+		repaint();
+	}
+	
+	public void fillRegisters(int[] registerValues){
+		panel_2.removeAll();
+		panel_2.setLayout(new GridLayout(32, 1, 0, 0));
 		for(int i=0 ; i<registerValues.length;i++){
 			JLabel l = new JLabel(registerValues[i] + "");
 			l.setBorder(new LineBorder(new Color(0, 0, 0)));
 			panel_2.add(l);
 		}
-		selectInstruction(0);
+		repaint();
 	}
 	
-	public void selectInstruction(int pc){
-		instructionLabels.get(pc).setForeground(Color.red);
+	public void addInstructions(ArrayList<String> instructions){
+		panel.setLayout(new GridLayout(instructions.size(), 1, 0, 0));
+		for(int i=0 ; i<instructions.size();i++){
+			JLabel l = new JLabel(instructions.get(i));
+			panel.add(l);
+			instructionLabels.add(l);
+		}
+		repaint();
 	}
 }

@@ -50,5 +50,10 @@ public class RegisterFile {
 		register_file[16] = 5;
 		register_file[17] = 15;
 	}
+
+	public int[] get_register_file() {
+
+		return register_file;
+	}
 	
 }
