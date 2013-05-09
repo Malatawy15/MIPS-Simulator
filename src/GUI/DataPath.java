@@ -12,6 +12,278 @@ public class DataPath extends JPanel {
 	}
 
 
+	/**
+	 * @return the mux4
+	 */
+	public Mux getMux4() {
+		return mux4;
+	}
+
+
+	/**
+	 * @param mux4 the mux4 to set
+	 */
+	public void setMux4(Mux mux4) {
+		this.mux4 = mux4;
+	}
+
+
+	/**
+	 * @return the mux5
+	 */
+	public Mux getMux5() {
+		return mux5;
+	}
+
+
+	/**
+	 * @param mux5 the mux5 to set
+	 */
+	public void setMux5(Mux mux5) {
+		this.mux5 = mux5;
+	}
+
+
+	/**
+	 * @return the shiftLeft2
+	 */
+	public ShiftLeft getShiftLeft2() {
+		return shiftLeft2;
+	}
+
+
+	/**
+	 * @param shiftLeft2 the shiftLeft2 to set
+	 */
+	public void setShiftLeft2(ShiftLeft shiftLeft2) {
+		this.shiftLeft2 = shiftLeft2;
+	}
+
+
+	/**
+	 * @return the muxToMux
+	 */
+	public Wire getMuxToMux() {
+		return muxToMux;
+	}
+
+
+	/**
+	 * @param muxToMux the muxToMux to set
+	 */
+	public void setMuxToMux(Wire muxToMux) {
+		this.muxToMux = muxToMux;
+	}
+
+
+	/**
+	 * @return the instructionMemToShifter
+	 */
+	public Wire[] getInstructionMemToShifter() {
+		return instructionMemToShifter;
+	}
+
+
+	/**
+	 * @param instructionMemToShifter the instructionMemToShifter to set
+	 */
+	public void setInstructionMemToShifter(Wire[] instructionMemToShifter) {
+		this.instructionMemToShifter = instructionMemToShifter;
+	}
+
+
+	/**
+	 * @return the shifter2ToMux
+	 */
+	public Wire[] getShifter2ToMux() {
+		return shifter2ToMux;
+	}
+
+
+	/**
+	 * @param shifter2ToMux the shifter2ToMux to set
+	 */
+	public void setShifter2ToMux(Wire[] shifter2ToMux) {
+		this.shifter2ToMux = shifter2ToMux;
+	}
+
+
+	/**
+	 * @return the adder1ToShifter1
+	 */
+	public Wire getAdder1ToShifter1() {
+		return adder1ToShifter1;
+	}
+
+
+	/**
+	 * @param adder1ToShifter1 the adder1ToShifter1 to set
+	 */
+	public void setAdder1ToShifter1(Wire adder1ToShifter1) {
+		this.adder1ToShifter1 = adder1ToShifter1;
+	}
+
+
+	/**
+	 * @return the control
+	 */
+	public Control getControl() {
+		return control;
+	}
+
+
+	/**
+	 * @param control the control to set
+	 */
+	public void setControl(Control control) {
+		this.control = control;
+	}
+
+
+	/**
+	 * @return the regDst
+	 */
+	public Wire[] getRegDst() {
+		return regDst;
+	}
+
+
+	/**
+	 * @param regDst the regDst to set
+	 */
+	public void setRegDst(Wire[] regDst) {
+		this.regDst = regDst;
+	}
+
+
+	/**
+	 * @return the jump
+	 */
+	public Wire[] getJump() {
+		return jump;
+	}
+
+
+	/**
+	 * @param jump the jump to set
+	 */
+	public void setJump(Wire[] jump) {
+		this.jump = jump;
+	}
+
+
+	/**
+	 * @return the branch
+	 */
+	public Wire[] getBranch() {
+		return branch;
+	}
+
+
+	/**
+	 * @param branch the branch to set
+	 */
+	public void setBranch(Wire[] branch) {
+		this.branch = branch;
+	}
+
+
+	/**
+	 * @return the memRead
+	 */
+	public Wire[] getMemRead() {
+		return memRead;
+	}
+
+
+	/**
+	 * @param memRead the memRead to set
+	 */
+	public void setMemRead(Wire[] memRead) {
+		this.memRead = memRead;
+	}
+
+
+	/**
+	 * @return the memToReg
+	 */
+	public Wire[] getMemToReg() {
+		return memToReg;
+	}
+
+
+	/**
+	 * @param memToReg the memToReg to set
+	 */
+	public void setMemToReg(Wire[] memToReg) {
+		this.memToReg = memToReg;
+	}
+
+
+	/**
+	 * @return the aluOp
+	 */
+	public Wire[] getAluOp() {
+		return aluOp;
+	}
+
+
+	/**
+	 * @param aluOp the aluOp to set
+	 */
+	public void setAluOp(Wire[] aluOp) {
+		this.aluOp = aluOp;
+	}
+
+
+	/**
+	 * @return the memWrite
+	 */
+	public Wire[] getMemWrite() {
+		return memWrite;
+	}
+
+
+	/**
+	 * @param memWrite the memWrite to set
+	 */
+	public void setMemWrite(Wire[] memWrite) {
+		this.memWrite = memWrite;
+	}
+
+
+	/**
+	 * @return the aluSrc
+	 */
+	public Wire[] getAluSrc() {
+		return aluSrc;
+	}
+
+
+	/**
+	 * @param aluSrc the aluSrc to set
+	 */
+	public void setAluSrc(Wire[] aluSrc) {
+		this.aluSrc = aluSrc;
+	}
+
+
+	/**
+	 * @return the regWrite
+	 */
+	public Wire[] getRegWrite() {
+		return regWrite;
+	}
+
+
+	/**
+	 * @param regWrite the regWrite to set
+	 */
+	public void setRegWrite(Wire[] regWrite) {
+		this.regWrite = regWrite;
+	}
+
+
 	public void setInstructionMemory(InstructionMemory instructionMemory) {
 		this.instructionMemory = instructionMemory;
 	}

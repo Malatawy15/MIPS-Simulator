@@ -90,7 +90,7 @@ public class MainView extends JFrame {
 
 	private JPanel panel_2;
 	private JFrame datapathFrame;
-	private DataPath datapath;
+	public DataPath datapath;
 	private JButton next;
 	private JButton next_instruction;
 	private JButton run;
