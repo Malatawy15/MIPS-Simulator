@@ -31,6 +31,8 @@ public class Simulator {
 	int memory_result;
 	int write_back_value;
 	
+	boolean signal_alu_zero;
+	
 	public static void main (String[]args) throws Exception{
 		Simulator sim = new Simulator();
 		sim.run();
@@ -83,6 +85,7 @@ public class Simulator {
 			memory_stage();
 			
 			System.out.println("Memory result = " + memory_result);
+			System.out.println("Memory at address 24 is = " + memory_unit.load_word(24));
 			//Write back stage
 			
 			write_back_stage();
@@ -222,6 +225,18 @@ public class Simulator {
 	
 	private int calculate_memory_address(){ //To Do! // Is it actually handled in ALU?
 		return 0;
+	}
+
+	public void set_alu_zero() {
+		signal_alu_zero = true;
+	}
+
+	public void reset_alu_zero() {
+		signal_alu_zero = false;
+	}
+	
+	public void clear_signals(){
+		
 	}
 
 }

@@ -31,34 +31,21 @@ public class LogicUnit {
 				return result;
 			break;
 		case 1:
-			if(load_format())
+			if (memory_format())
 				return result;
 			break;
 		case 2:
-			// store instructions here
+			if (memory_format())
+				return result;
 			break;
 		// branch case
 		// if the branch condition is true then : PC <- PC + 4 + (sign-extended
 		// immediate field)<<2.
 		// two types : bne , beq
 		case 3:
-			if (type.equals(InstructionType.bne)) { // I don't know exactly how
-													// to check if it is bne or
-													// beq in the case
-				if (inst.get_rs() != inst.get_rt()) {
-					//inst.labelJump = 1;
-				}
-			} else if (type.equals(InstructionType.bne)) { // I don't know
-															// exactly how to
-															// check if it is
-															// bne or beq in the
-															// case
-				if (inst.get_rs() == inst.get_rt()) {
-					//inst.labelJump = 1;
-				}
-			}
-			break;
-		case 4: 
+			branch_format();
+			return 0;
+		case 4:
 			// j and jal , there is no ALU as they only update the PC ==> 'PC <-
 			// target address'
 		case 5:
@@ -66,23 +53,6 @@ public class LogicUnit {
 		}
 
 		return 0;
-	}
-
-	public boolean load_format() {
-
-		int rs;
-		int immediate_value = inst.get_immediate_value(); // Automatically sign
-															// extended?
-
-		try {
-			rs = register_file.get_register(inst.get_rs());
-		} catch (RegisterOutOfBoundsException e) {
-			e.printStackTrace();
-			return false;
-		}
-		result = rs + immediate_value;
-
-		return true;
 	}
 
 	public boolean r_format() {
@@ -105,7 +75,7 @@ public class LogicUnit {
 		case sub:
 			result = rs - rt;
 			break;
-		case or: 
+		case or:
 			result = rs | rt;
 			break;
 		case sll:
@@ -130,7 +100,7 @@ public class LogicUnit {
 			result = ~(rs | rt);
 			break;
 		case slt:
-			result = rs < rt? 1 : 0;
+			result = rs < rt ? 1 : 0;
 			break;
 		default: // throw illegal arguments exception
 			break;
@@ -139,11 +109,50 @@ public class LogicUnit {
 		return true;
 
 	}
+	
+	public boolean memory_format() {
 
-	/*
-	 * public void add(){
-	 * 
-	 * }
-	 */
+		int rs;
+		int immediate_value = inst.get_immediate_value(); // Automatically sign
+															// extended?
+
+		try {
+			rs = register_file.get_register(inst.get_rs());
+		} catch (RegisterOutOfBoundsException e) {
+			e.printStackTrace();
+			return false;
+		}
+		result = rs + immediate_value;
+
+		return true;
+	}
+	
+	private boolean branch_format() {
+		
+		int rs, rt;
+		
+		try {
+			rs = register_file.get_register(inst.get_rs());
+			rt = register_file.get_register(inst.get_rt());
+			register_file.validate_index(inst.get_rd());
+		} catch (RegisterOutOfBoundsException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		switch (inst.get_type()){
+		case beq :
+			if(rs == rt)
+				simulator.set_alu_zero();
+			break;
+		case bne: 
+			if(rs != rt)
+				simulator.set_alu_zero();
+			break;
+		}
+	
+		return true;
+
+	}
 
 }
