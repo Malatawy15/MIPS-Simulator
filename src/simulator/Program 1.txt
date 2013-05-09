@@ -3,3 +3,10 @@ lw s2, 4(s2)
 sub s2, s2, s0
 addi s2, s2, 1
 sw s2, 4(s2)
+addi s3, zero, 20
+addi s2, zero, 0
+j FIB
+addi s2,s2,1
+FIB: 
+addi s2, s2, 2
+bne s2, s3, FIB 

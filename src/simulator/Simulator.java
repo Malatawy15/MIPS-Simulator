@@ -91,6 +91,7 @@ public class Simulator {
 			write_back_stage();
 			
 			System.out.println("Register s2 is now equal " + register_file.get_register(18));
+			System.out.println("Register s3 is now equal " + register_file.get_register(RegisterMapper.map_to_index("s3")));
 			
 			System.out.println("========");
 		}
@@ -153,13 +154,21 @@ public class Simulator {
 	
 	private void map_labels(){
 		int i =0;
+		ArrayList<String> rep = new ArrayList<String>();
 		for(String str : raw_instructions){
-			StringTokenizer st = new StringTokenizer(str, ":");
-			if(st.countTokens() > 1){
+			if(str.contains(":")){
+				StringTokenizer st = new StringTokenizer(str, ":");
 				label_map.put(st.nextToken(), i);
+//				if (st.countTokens()>0){
+//					rep.add(st.nextToken());
+//				}
 			}
-			i+=4;
+			else {
+				rep.add(str);
+				i+=4;
+			}
 		}
+		raw_instructions = rep;
 		//System.out.println(label_map);
 	}
 	
@@ -174,7 +183,30 @@ public class Simulator {
 	}
 	
 	private void execute_stage(){
-		alu_result = logic_unit.execute(current_instruction);
+		switch(current_instruction.get_format()){
+		case 4:
+			write_back_value = pc;
+			write_to_pc(current_instruction.get_immediate_value());
+			break;
+		case 5:
+			write_to_pc(current_instruction.get_rs());
+			break;
+		case 3:
+			alu_result = logic_unit.execute(current_instruction);
+			System.out.println("ALU Signal is "+signal_alu_zero);
+			if (signal_alu_zero){
+				write_to_pc(current_instruction.get_immediate_value());
+			}
+			break;
+		default:
+			alu_result = logic_unit.execute(current_instruction);
+			break;
+		}
+	}
+	
+	private void write_to_pc(int value){
+		pc = value;
+		counter = pc >> 2;
 	}
 	
 	private void memory_stage(){

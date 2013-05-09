@@ -144,13 +144,15 @@ public class LogicUnit {
 		case beq :
 			if(rs == rt)
 				simulator.set_alu_zero();
+			else simulator.reset_alu_zero();
 			break;
 		case bne: 
 			if(rs != rt)
 				simulator.set_alu_zero();
+			else simulator.reset_alu_zero();
 			break;
 		}
-	
+		
 		return true;
 
 	}
