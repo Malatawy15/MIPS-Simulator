@@ -146,6 +146,7 @@ public class Instruction {
 				break;
 			case sw:
 			case sh:
+			case sb:
 				format = 2;
 				break;
 			case beq:
