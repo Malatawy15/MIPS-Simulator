@@ -115,6 +115,7 @@ public class Simulator {
 		populate_memory();
 		
 		RegisterMapper.populate();
+
 	}
 	
 	private void populate_memory(){
@@ -143,7 +144,20 @@ public class Simulator {
 		while( ((line=br.readLine())) != null){
 			raw_instructions.add(line);
 		}
+		map_labels();
 
+	}
+	
+	private void map_labels(){
+		int i =0;
+		for(String str : raw_instructions){
+			StringTokenizer st = new StringTokenizer(str, ":");
+			if(st.countTokens() > 1){
+				label_map.put(st.nextToken(), i);
+			}
+			i+=4;
+		}
+		//System.out.println(label_map);
 	}
 	
 	private void fetch_stage(){
@@ -164,16 +178,15 @@ public class Simulator {
 		InstructionType type = current_instruction.get_type();
 		
 		switch(type){
-		case lw:{
+		case lw:
 			memory_result = memory_unit.load_word(alu_result);
 			break;
-		}
-		case sw:{
+		case sw:
+			int rt = register_file.get_register(current_instruction.get_rt());
+			memory_unit.store_word(alu_result, rt);
+			break;
+		default:
 			
-		}
-		default:{
-			
-		}
 		}
 		
 	}
