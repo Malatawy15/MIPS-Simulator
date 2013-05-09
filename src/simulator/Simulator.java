@@ -21,6 +21,7 @@ public class Simulator {
 
 	int pc;
 	int counter;
+	int current_step;
 
 	Hashtable<String, Integer> label_map;
 
@@ -50,20 +51,36 @@ public class Simulator {
 
 		initialize_values(); // Initializes all values
 
-		load_data(); // Reads all instructions
+		load_instructions(); // Reads all instructions
+		
+		load_data(); // Reads all data
+		
+		run_all_instructions();
+	}
+	
+	public void run_step() throws Exception{
+		switch(current_step){
+		case 0:
+			if (pc >> 2 < raw_instructions.size()){
+				// Fetch stage
 
-		// Loop over all instructions executing one by one
-		while (pc >> 2 < raw_instructions.size()) {
+				/*
+				 * load instruction from instruction memory increment the PC
+				 */
 
-			// Fetch stage
+				fetch_stage();
+				
+				gui.selectInstruction(pc >> 2);
 
-			/*
-			 * load instruction from instruction memory increment the PC
-			 */
+				System.out.println(current_raw_instruction);
 
-			fetch_stage();
-
-			System.out.println(current_raw_instruction);
+				current_step++;
+			}
+			else {
+				//disable all buttons
+			}
+			break;
+		case 1:
 			// Decode stage
 
 			/*
@@ -75,11 +92,19 @@ public class Simulator {
 			decode_stage();
 
 			System.out.println(current_instruction);
+
+			current_step++;
+			break;
+		case 2:
 			// Execute stage
 
 			execute_stage();
 
 			System.out.println("ALU result = " + alu_result);
+
+			current_step++;
+			break;
+		case 3:
 			// Memory stage
 
 			memory_stage();
@@ -89,6 +114,10 @@ public class Simulator {
 					+ memory_unit.load_byte(24) + ", and ");
 			System.out.println("word at address 24 is = "
 					+ memory_unit.load_word(24));
+
+			current_step++;
+			break;
+		case 4:
 			// Write back stage
 
 			write_back_stage();
@@ -97,6 +126,23 @@ public class Simulator {
 			System.out.println("Register s3 is now equal " + register_file.get_register(RegisterMapper.map_to_index("s3")));
 			
 			System.out.println("========");
+
+			current_step = 0;
+			break;
+		}
+	}
+	
+	public void run_instruction() throws Exception{
+		if (pc >> 2 < raw_instructions.size()){
+			for (int i =0;i<5;i++)
+				run_step();
+		}
+	}
+	
+	public void run_all_instructions() throws Exception{
+		// Loop over all instructions executing one by one
+		while (pc >> 2 < raw_instructions.size()) {
+			run_instruction();
 		}
 	}
 
@@ -109,6 +155,7 @@ public class Simulator {
 		gui = new MainView();
 		
 		pc = 0; // change this, can allow different start values
+		current_step = 0;
 		current_raw_instruction = "";
 		current_instruction = new Instruction();
 
@@ -123,21 +170,28 @@ public class Simulator {
 		logic_unit.set_sim(this);
 
 		memory_unit = new MemoryUnit();
-		populate_memory();
 
 		RegisterMapper.populate();
 
 	}
 
-	private void populate_memory() {
-		Random r = new Random();
+	private void load_data() throws IOException {
+/*		Random r = new Random();
 		for (int i = 0; i < memory_unit.size(); i += 4) {
 			memory_unit.store_word(i, i);
+		}*/
+		InputStream input = getClass().getResourceAsStream("Data 1.txt");
+		BufferedReader br = new BufferedReader(new InputStreamReader(input));
+		String line = "";
+		while (((line = br.readLine())) != null) {
+			StringTokenizer st = new StringTokenizer(line,",");
+			memory_unit.store_word(Integer.parseInt(st.nextToken().trim()), Integer.parseInt(st.nextToken().trim()));
 		}
+		
 		gui.fillMemory(memory_unit.get_memory());
 	}
 
-	private void load_data() throws IOException {
+	private void load_instructions() throws IOException {
 
 		/*
 		 * String instruction = "add s2, s0, s1";
@@ -227,6 +281,9 @@ public class Simulator {
 		case lh:
 			memory_result = memory_unit.load_half_word(alu_result);
 			break;
+		case lhu:
+			memory_result = memory_unit.load_half_word_unsigned(alu_result);
+			break;
 		case lb:
 			memory_result = memory_unit.load_byte(alu_result);
 			break;
@@ -281,10 +338,6 @@ public class Simulator {
 		}
 	}
 
-	private int calculate_memory_address() { // To Do! // Is it actually handled
-												// in ALU?
-		return 0;
-	}
 
 	public void set_alu_zero() {
 		signal_alu_zero = true;

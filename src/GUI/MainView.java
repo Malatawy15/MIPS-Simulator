@@ -206,8 +206,11 @@ public class MainView extends JFrame {
 		for (JLabel l : instructionLabels){
 			l.setForeground(Color.black);
 		}
-		instructionLabels.get(pc).setForeground(Color.red);
+		instructionLabels.get(pc-1).setForeground(Color.red);
+		repaint();
+		revalidate();
 	}
+	
 	public void fillMemory(byte[]memory){
 		panel2.setLayout(new GridLayout(memory.length, 1, 0, 0));
 		for(int i=0 ; i<memory.length;i++){

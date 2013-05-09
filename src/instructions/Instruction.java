@@ -70,7 +70,9 @@ public class Instruction {
 		switch(format){
 		case 0:
 			rd = RegisterMapper.map_to_index(target.trim());
-			rs = RegisterMapper.map_to_index(st.nextToken().trim());
+			if(type!= InstructionType.lui){
+				rs = RegisterMapper.map_to_index(st.nextToken().trim());
+			}
 			if (immediate){
 				immediate_value = Integer.parseInt(st.nextToken().trim());
 			}
@@ -130,6 +132,7 @@ public class Instruction {
 			case addi:
 			case andi:
 			case ori:
+			case lui:
 				format = 0;
 				immediate = true;
 				break;
@@ -139,10 +142,6 @@ public class Instruction {
 			case lb:
 			case lbu:
 				format = 1;
-				break;
-			case lui:
-				format = 1;
-				immediate = true;
 				break;
 			case sw:
 			case sh:

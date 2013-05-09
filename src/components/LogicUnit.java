@@ -102,6 +102,8 @@ public class LogicUnit {
 		case slt:
 			result = rs < rt ? 1 : 0;
 			break;
+		case lui:
+			result = inst.get_immediate_value() << 16;
 		default: // throw illegal arguments exception
 			break;
 		}

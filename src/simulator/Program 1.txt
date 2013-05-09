@@ -10,3 +10,4 @@ addi s2,s2,1
 FIB: 
 addi s2, s2, 2
 bne s2, s3, FIB 
+lui s2, 1
