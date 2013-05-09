@@ -70,7 +70,9 @@ public class Instruction {
 		switch(format){
 		case 0:
 			rd = RegisterMapper.map_to_index(target.trim());
-			rs = RegisterMapper.map_to_index(st.nextToken().trim());
+			if(type!= InstructionType.lui){
+				rs = RegisterMapper.map_to_index(st.nextToken().trim());
+			}
 			if (immediate){
 				immediate_value = Integer.parseInt(st.nextToken().trim());
 			}

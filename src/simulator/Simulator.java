@@ -275,10 +275,6 @@ public class Simulator {
 		}
 	}
 
-	private int calculate_memory_address() { // To Do! // Is it actually handled
-												// in ALU?
-		return 0;
-	}
 
 	public void set_alu_zero() {
 		signal_alu_zero = true;
