@@ -110,8 +110,6 @@ public class Simulator {
 			memory_stage();
 
 			System.out.println("Memory result = " + memory_result);
-			System.out.print("Byte at address 24 is = "
-					+ memory_unit.load_byte(24) + ", and ");
 			System.out.println("word at address 24 is = "
 					+ memory_unit.load_word(24));
 
@@ -190,6 +188,7 @@ public class Simulator {
 		}
 		
 		gui.fillMemory(memory_unit.get_memory());
+
 	}
 
 	private void load_instructions() throws IOException {
@@ -306,7 +305,7 @@ public class Simulator {
 		default:
 
 		}
-
+		memory_unit.print();
 	}
 
 	private void write_back_stage() throws Exception {

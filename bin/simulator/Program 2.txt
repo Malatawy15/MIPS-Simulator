@@ -1,0 +1,11 @@
+addi s3, zero, 255
+sb s3, 0(zero)
+lb s2, 0(zero)
+lbu s2, 0(zero)
+addi s3, zero, 32768
+sh s3, 4(zero)
+lh s2, 4(zero)
+lhu s2, 4(zero)
+addi s3, zero, 100000
+sw s3, 8(zero)
+lw s2, 8(zero)
