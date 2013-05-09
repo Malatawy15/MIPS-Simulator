@@ -98,8 +98,8 @@ public class Instruction {
 			rs = RegisterMapper.map_to_index(str.substring(0,str.length()-1));
 			break;
 		case 3:
-			rs = Integer.parseInt(target.trim());
-			rt = Integer.parseInt(st.nextToken().trim());
+			rs = RegisterMapper.map_to_index(target.trim());
+			rt = RegisterMapper.map_to_index(st.nextToken().trim());
 			immediate_value = label_map.get(st.nextToken().trim()); 
 			break;
 		case 4:
@@ -184,6 +184,8 @@ public class Instruction {
 			return rd;
 		case 1:
 			return rt;
+		case 4:
+			return RegisterMapper.map_to_index("ra");			
 		default:
 			throw new ProgramRunTimeException();
 		}
