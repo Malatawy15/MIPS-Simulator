@@ -55,7 +55,7 @@ public class Simulator {
 		
 		load_data(); // Reads all data
 		
-		run_all_instructions();
+//		run_all_instructions();
 	}
 	
 	public void run_step() throws Exception{
@@ -134,8 +134,9 @@ public class Simulator {
 	
 	public void run_instruction() throws Exception{
 		if (pc >> 2 < raw_instructions.size()){
-			for (int i =0;i<5;i++)
+			while(current_step<4)
 				run_step();
+			run_step();
 		}
 	}
 	
@@ -152,7 +153,7 @@ public class Simulator {
 
 	private void initialize_values() {
 		
-		gui = new MainView();
+		gui = new MainView(this);
 		
 		pc = 0; // change this, can allow different start values
 		current_step = 0;

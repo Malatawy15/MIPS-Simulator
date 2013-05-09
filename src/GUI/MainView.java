@@ -13,11 +13,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
+import simulator.Simulator;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class MainView extends JFrame {
 
+	Simulator sim;
+	
 	private JPanel contentPane;
 	private JScrollPane instructionMemory;
 	private JPanel panel;
@@ -87,27 +92,30 @@ public class MainView extends JFrame {
 	private JFrame datapathFrame;
 	private DataPath datapath;
 	private JButton next;
+	private JButton next_instruction;
+	private JButton run;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainView frame = new MainView();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					MainView frame = new MainView();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
-	public MainView() {
+	public MainView(Simulator s) {
+		this.sim = s;
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(1040, 10, 550, 400);
@@ -157,14 +165,47 @@ public class MainView extends JFrame {
 		panel_2 = new JPanel();
 		panel3.add(panel_2);
 		
-		next = new JButton("next step");
+		next = new JButton("Next step");
 		next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				try {
+					sim.run_step();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		next.setBounds(10, 10, 120, 20);
 		contentPane.add(next);
+		
+		next_instruction = new JButton("Next instruction");
+		next_instruction.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					sim.run_instruction();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		next_instruction.setBounds(150, 10, 150, 20);
+		contentPane.add(next_instruction);
+		
+		run = new JButton("Run all");
+		run.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					sim.run_all_instructions();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		run.setBounds(320, 10, 120, 20);
+		contentPane.add(run);
 		
 		panel3.setLayout(new GridLayout(1, 2, 0, 0));
 		panel_1.setLayout(new GridLayout(32, 1, 0, 0));
@@ -218,6 +259,8 @@ public class MainView extends JFrame {
 			l.setBorder(new LineBorder(new Color(0, 0, 0)));
 			panel2.add(l);
 		}
+		dataMemory.remove(panel2);
+		dataMemory.setViewportView(panel2);
 		repaint();
 	}
 	
@@ -229,7 +272,12 @@ public class MainView extends JFrame {
 			l.setBorder(new LineBorder(new Color(0, 0, 0)));
 			panel_2.add(l);
 		}
+		panel_2.repaint();
+		panel3.remove(panel_2);
+		panel3.add(panel_2);
+		panel3.repaint();
 		repaint();
+		validate();
 	}
 	
 	public void addInstructions(ArrayList<String> instructions){
@@ -239,6 +287,8 @@ public class MainView extends JFrame {
 			panel.add(l);
 			instructionLabels.add(l);
 		}
+		instructionMemory.remove(panel);
+		instructionMemory.setViewportView(panel);
 		repaint();
 	}
 }
