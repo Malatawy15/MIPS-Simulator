@@ -47,7 +47,9 @@ public class Simulator {
 
 		initialize_values(); // Initializes all values
 
-		load_data(); // Reads all instructions
+		load_instructions(); // Reads all instructions
+		
+		load_data(); // Reads all data
 
 		// Loop over all instructions executing one by one
 		while (pc >> 2 < raw_instructions.size()) {
@@ -116,20 +118,27 @@ public class Simulator {
 		logic_unit.set_sim(this);
 
 		memory_unit = new MemoryUnit();
-		populate_memory();
 
 		RegisterMapper.populate();
 
 	}
 
-	private void populate_memory() {
-		Random r = new Random();
+	private void load_data() throws IOException {
+/*		Random r = new Random();
 		for (int i = 0; i < memory_unit.size(); i += 4) {
 			memory_unit.store_word(i, i);
+		}*/
+		InputStream input = getClass().getResourceAsStream("Data 1.txt");
+		BufferedReader br = new BufferedReader(new InputStreamReader(input));
+		String line = "";
+		while (((line = br.readLine())) != null) {
+			StringTokenizer st = new StringTokenizer(line,",");
+			memory_unit.store_word(Integer.parseInt(st.nextToken().trim()), Integer.parseInt(st.nextToken().trim()));
 		}
+		memory_unit.print();
 	}
 
-	private void load_data() throws IOException {
+	private void load_instructions() throws IOException {
 
 		/*
 		 * String instruction = "add s2, s0, s1";

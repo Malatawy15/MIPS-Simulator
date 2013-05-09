@@ -20,6 +20,10 @@ public class MemoryUnit {
 		return memory.length;
 	}
 	
+	public void print(){
+		System.out.println(Arrays.toString(memory));
+	}
+	
 	public byte[] read(int start, int end) {
 		if (start < 0 || end > memory.length) {
 			throw new MemoryOutOfBoundsException();
