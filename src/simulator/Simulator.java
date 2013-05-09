@@ -84,8 +84,6 @@ public class Simulator {
 			memory_stage();
 
 			System.out.println("Memory result = " + memory_result);
-			System.out.print("Byte at address 24 is = "
-					+ memory_unit.load_byte(24) + ", and ");
 			System.out.println("word at address 24 is = "
 					+ memory_unit.load_word(24));
 			// Write back stage
@@ -135,7 +133,6 @@ public class Simulator {
 			StringTokenizer st = new StringTokenizer(line,",");
 			memory_unit.store_word(Integer.parseInt(st.nextToken().trim()), Integer.parseInt(st.nextToken().trim()));
 		}
-		memory_unit.print();
 	}
 
 	private void load_instructions() throws IOException {
@@ -150,7 +147,7 @@ public class Simulator {
 		 * 
 		 * instruction = "addi s2, s2, 1"; raw_instructions.add(instruction);
 		 */
-		InputStream input = getClass().getResourceAsStream("Program 1.txt");
+		InputStream input = getClass().getResourceAsStream("Program 2.txt");
 		BufferedReader br = new BufferedReader(new InputStreamReader(input));
 		String line = "";
 		while (((line = br.readLine())) != null) {
@@ -252,7 +249,7 @@ public class Simulator {
 		default:
 
 		}
-
+		memory_unit.print();
 	}
 
 	private void write_back_stage() throws Exception {

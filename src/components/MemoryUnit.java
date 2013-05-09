@@ -58,13 +58,18 @@ public class MemoryUnit {
 
 	public int load_half_word(int index) {
 		byte[] array = read(index, index + 2);
-		return (short)((array[0]<<8) | (array[1]));
+		return (short)(
+	            (0xff & array[0]) << 8   |
+	            (0xff & array[1]) << 0
+	            );
 	}
 	
 	public int load_half_word_unsigned(int index) {
 		byte[] array = read(index, index+2);
-		return (char) ((array[0]<<8) | (array[1]));
-	}
+		return (char)(
+	            (0xff & array[0]) << 8   |
+	            (0xff & array[1]) << 0
+	            );	}
 
 	public int load_byte(int index) {
 		byte[] array = read(index, index+1);
