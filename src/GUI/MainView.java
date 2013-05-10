@@ -291,4 +291,72 @@ public class MainView extends JFrame {
 		instructionMemory.setViewportView(panel);
 		repaint();
 	}
+	
+	public void set_fetch_red(){
+		set_to_black();
+		datapath.getPc().setColor(Color.red);
+		datapath.getAdder1().setColor(Color.red);
+		datapath.getInstructionMemory().setColor(Color.red);
+		datapath.repaint();
+	}
+	
+	public void set_decode_red(){
+		set_to_black();
+		datapath.getRegisters().setColor(Color.red);
+		datapath.repaint();
+	}
+	
+	public void set_exec_red(){
+		System.out.println("RED CALLED");
+		set_to_black();
+//		System.out.println(sim.get_current_instruction_format());
+		switch(sim.get_current_instruction_format()){
+		case 0:
+			datapath.getAlu().setColor(Color.red);
+			break;
+		case 1:
+			datapath.getAlu().setColor(Color.red);
+			break;
+		case 2:
+			datapath.getAlu().setColor(Color.red);
+			break;
+		case 3:
+			datapath.getAlu().setColor(Color.red);
+			break;
+		case 4:
+			datapath.getAdder2().setColor(Color.red);
+		case 5:
+			datapath.getAdder2().setColor(Color.red);
+		}
+		datapath.repaint();
+	}
+	
+	public void set_memory_red(){
+		set_to_black();
+		datapath.getDataMemory().setColor(Color.red);
+		datapath.repaint();
+	}
+	
+	public void set_write_back_red(){
+		set_to_black();
+		datapath.getRegisters().setColor(Color.red);
+		datapath.repaint();
+	}
+	
+	public void set_to_black(){
+		datapath.getPc().setColor(Color.black);
+		datapath.getAdder1().setColor(Color.black);
+		datapath.getRegisters().setColor(Color.black);
+		datapath.getInstructionMemory().setColor(Color.black);
+		datapath.getDataMemory().setColor(Color.black);
+		datapath.getShiftLeft().setColor(Color.black);
+		datapath.getAlu().setColor(Color.black);
+		datapath.getAdder2().setColor(Color.black);
+		datapath.getSignExtend().setColor(Color.black);
+		datapath.getMux1().setColor(Color.black);
+		datapath.getMux2().setColor(Color.black);
+		datapath.getMux3().setColor(Color.black);
+		datapath.getMux4().setColor(Color.black);
+		datapath.getMux5().setColor(Color.black);
+	}
 }

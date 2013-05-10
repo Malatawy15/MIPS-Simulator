@@ -59,23 +59,6 @@ public class Simulator {
 //		run_all_instructions();
 	}
 	
-	public void set_to_black(){
-		gui.datapath.getPc().setColor(Color.black);
-		gui.datapath.getAdder1().setColor(Color.black);
-		gui.datapath.getRegisters().setColor(Color.black);
-		gui.datapath.getInstructionMemory().setColor(Color.black);
-		gui.datapath.getDataMemory().setColor(Color.black);
-		gui.datapath.getShiftLeft().setColor(Color.black);
-		gui.datapath.getAlu().setColor(Color.black);
-		gui.datapath.getAdder2().setColor(Color.black);
-		gui.datapath.getSignExtend().setColor(Color.black);
-		gui.datapath.getMux1().setColor(Color.black);
-		gui.datapath.getMux2().setColor(Color.black);
-		gui.datapath.getMux3().setColor(Color.black);
-		gui.datapath.getMux4().setColor(Color.black);
-		gui.datapath.getMux5().setColor(Color.black);
-	}
-	
 	public void run_step() throws Exception{
 		switch(current_step){
 		case 0:
@@ -89,10 +72,7 @@ public class Simulator {
 				fetch_stage();
 				
 				gui.selectInstruction(pc >> 2);
-				set_to_black();
-				gui.datapath.getPc().setColor(Color.red);
-				gui.datapath.getAdder1().setColor(Color.red);
-				gui.datapath.repaint();
+				gui.set_fetch_red();
 				
 				System.out.println(current_raw_instruction);
 
@@ -112,10 +92,8 @@ public class Simulator {
 			 */
 
 			decode_stage();
+			gui.set_decode_red();
 
-			set_to_black();
-			gui.datapath.getInstructionMemory().setColor(Color.red);
-			gui.datapath.repaint();
 			System.out.println(current_instruction);
 
 			current_step++;
@@ -124,10 +102,8 @@ public class Simulator {
 			// Execute stage
 
 			execute_stage();
+			gui.set_exec_red();
 
-			set_to_black();
-			gui.datapath.getAlu().setColor(Color.red);
-			gui.datapath.repaint();
 			System.out.println("ALU result = " + alu_result);
 
 			current_step++;
@@ -136,10 +112,8 @@ public class Simulator {
 			// Memory stage
 
 			memory_stage();
+			gui.set_memory_red();
 
-			set_to_black();
-			gui.datapath.getDataMemory().setColor(Color.red);
-			gui.datapath.repaint();
 			System.out.println("Memory result = " + memory_result);
 			System.out.println("word at address 24 is = "
 					+ memory_unit.load_word(24));
@@ -150,10 +124,8 @@ public class Simulator {
 			// Write back stage
 
 			write_back_stage();
+			gui.set_write_back_red();
 
-			set_to_black();
-			gui.datapath.getRegisters().setColor(Color.red);
-			gui.datapath.repaint();
 			System.out.println("Register s2 is now equal " + register_file.get_register(18));
 			System.out.println("Register s3 is now equal " + register_file.get_register(RegisterMapper.map_to_index("s3")));
 			
@@ -383,6 +355,11 @@ public class Simulator {
 
 	public void clear_signals() {
 
+	}
+
+	public int get_current_instruction_format() {
+		// TODO Auto-generated method stub
+		return current_instruction.get_format();
 	}
 
 }
